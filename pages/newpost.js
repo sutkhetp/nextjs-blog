@@ -54,7 +54,7 @@ export default function createNewPost() {
                 </>
                 <br/>
                 <Editor
-                    tinymceScriptSrc='/js/tinymce/tinymce.min.js'
+                    tinymceScriptSrc='https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.0.1/tinymce.min.js'
                     onInit={(_evt, editor) => editorRef.current = editor}
                     initialValue='<p>This is the initial content of the editor.</p>'
                     init={{
