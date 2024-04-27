@@ -1,41 +1,48 @@
 import Layout from '../../components/layout';
-import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
 import Date from '../../components/date';
-
+import layoutStyles from '../../components/layout.module.css';
 import utilStyles from '../../styles/utils.module.css';
+import React, { useState, useEffect } from 'react';
+
+
 
 export default function Post({ postData }) {
+  
+  useEffect(() => {
+    if (typeof blogName != 'undefined') {
+      blogName.classList.add(layoutStyles['collapsed']);
+    }
+    if (typeof profileImage != 'undefined') {
+      profileImage.classList.add(layoutStyles.headerImage_collapsed);
+    }
+  });
+  
+
     return (
-        <Layout>
+        <>
       <Head>
         <title>{postData.title}</title>
       </Head>
       <article>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
+          <Date dateString={postData?.date || '2024-05-16'} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        <div dangerouslySetInnerHTML={{ __html: postData.body }} />
       </article>
-    </Layout>
+    </>
     );
   }
   
-  export async function getStaticPaths() {
-    // Return a list of possible value for id
-    const paths = getAllPostIds();
-    return {
-        paths,
-        fallback: false,
-    };
-  }
   
-  export async function getStaticProps({ params }) {
-    const postData = await getPostData(params.id);
-    return {
-      props: {
-        postData,
-      },
-    };
+  export async function getServerSideProps({ params }) {
+    // Fetch data from external API
+    const res = await fetch(`https://nextjs-blog-ebec7-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${params.id}.json`);
+    const post = await res.json();
+    // Pass data to the page via props
+    return { props: { postData: post } }
   }
+
+
+  

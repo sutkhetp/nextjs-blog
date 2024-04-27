@@ -3,11 +3,27 @@ import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import React, { useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const name = 'Sutkhet';
 export const siteTitle = 'Next.js Sample Website';
 
+
+
+
 export default function Layout({ children, home }) {
+  const router = useRouter();
+  const profileImageLinkRef = useRef(null);
+  
+  useEffect(() => {
+    
+    if (router.pathname === '/') {
+      
+      console.log(profileImageLinkRef.current)
+    }
+  });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -26,17 +42,23 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        {home ? (
+        {home || 1 ? (
           <>
-            <Image
+            <Link href={router.pathname === '/'?"":'/'} className={utilStyles.colorInherit} ref={profileImageLinkRef}>
+              <Image
+              id="profileImage"
               priority
               src="/images/profile.jpg"
-              className={utilStyles.borderCircle}
+              className={`${utilStyles.borderCircle} ${styles.headerImage}`}
               height={144}
               width={144}
               alt=""
+              style={{border: '5px solid #555'}}
+              onLoad={(e)=>{  }}
             />
-            <h1 className={utilStyles.heading2Xl} style={{color: 'orange'}}>{name}</h1>
+            </Link>
+              {router.pathname !== '/'?'':(<h1 id="blogName" className={`${utilStyles.heading2Xl} ${styles.blogName}`} style={{color: 'orange'}}
+             >{name+' Diary'}</h1>)}
           </>
         ) : (
           <>
@@ -48,18 +70,19 @@ export default function Layout({ children, home }) {
                 height={108}
                 width={108}
                 alt=""
+                style={{border: '3px solid #555'}}
               />
             </Link>
             <h2 className={utilStyles.headingLg} style={{color: 'orange'}}>
-              <Link href="/" className={utilStyles.colorInherit}>
+              {/* <Link href="/" className={utilStyles.colorInherit}>
                 {name}
-              </Link>
+                </Link> */}
             </h2>
           </>
         )}
       </header>
       <main>{children}</main>
-      {!home && (
+      {router.pathname !== '/' && (
         <div className={styles.backToHome}>
           <Link href="/">← Back to home</Link>
         </div>

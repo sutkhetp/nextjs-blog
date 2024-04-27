@@ -3,16 +3,21 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "postinstall": "node ./postinstall.js"
   },
   "dependencies": {
+    "@tinymce/tinymce-react": "^5.0.1",
     "date-fns": "^3.6.0",
+    "fs-extra": "^11.2.0",
     "gray-matter": "^4.0.3",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "remark-html": "^16.0.1",
+    "swr": "^2.2.5",
+    "tinymce": "^7.0.1"
   },
   "engines": {
     "node": ">=18"
