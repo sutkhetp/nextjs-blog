@@ -3,8 +3,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start",
-    "postinstall": "node ./postinstall.js"
+    "start": "next start"
   },
   "dependencies": {
     "@tinymce/tinymce-react": "^5.0.1",
